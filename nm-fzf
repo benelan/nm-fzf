@@ -22,10 +22,12 @@ help_cmd() {
     cat >&2 <<EOF
 An fzf wrapper around Linux's Network Manager CLI (nmcli).
 
-Usage:       $cmd <command>
-             $cmd { wifi | vpn } [<subcommand>]
-             $cmd wifi connect [<SSID>]
-             $cmd vpn import [<user-name>]
+Homepage:        https://github.com/benelan/nm-fzf/
+
+Usage:           $cmd <command>
+                 $cmd { wifi | vpn } [<subcommand>]
+                 $cmd wifi connect [<SSID>]
+                 $cmd vpn import [<user-name>]
 
 Commands:
 
@@ -45,16 +47,16 @@ Commands:
 
 Environment Variables:
 
-  NM_FZF_PASSWD_FILE
-    The path to a file that contains a list of connection passwords.
-    See: \$ man --pager='less -p \"^\s*passwd-file\"' nmcli
-
   NM_FZF_APPLET_AUTH
     Determines if nm-applet should be used for authentication. One benefit of
     using nm-applet is passwords aren't required for existing vpn connections.
     By default, nm-applet will be used if it is installed and running. A value
     of \"0\" disables usage, and \"1\" launches nm-applet in the background and
     kills it on exit if it's installed but not running.
+
+  NM_FZF_PASSWD_FILE
+    The path to a file that contains a list of connection passwords.
+    See: \$ man --pager='less -p "^\s*passwd-file"' nmcli
 EOF
     exit 0
 }
@@ -86,7 +88,7 @@ opts='--colors yes --escape yes'
 
 device_cmd() { #{{{1
     device_actions='(enter: print) (alt-c: connect) (alt-d: disconnect) (alt-X: delete)
-(alt-r: reapply) (alt-m: modify) (alt-M: monitor) (ctrl-r: reload list)
+(alt-r: reapply) (alt-M: monitor) (ctrl-r: reload list)
 
 '
 
@@ -97,7 +99,6 @@ device_cmd() { #{{{1
         --bind='enter:become(echo {1})' \
         --bind='ctrl-r:reload(eval "$FZF_DEFAULT_COMMAND")' \
         --bind='alt-M:execute(nmcli device monitor {1})' \
-        --bind='alt-m:execute(nmcli device modify {1} {q})+refresh-preview' \
         --bind='alt-r:execute(nmcli device reapply {1})+refresh-preview' \
         --bind='alt-c:execute(nmcli device connect {1})+reload(
             eval "$FZF_DEFAULT_COMMAND"
@@ -112,8 +113,8 @@ device_cmd() { #{{{1
 
 connection_cmd() { #{{{1
     conn_fields='NAME,TYPE,DEVICE,UUID'
-    conn_actions='(enter: print) (alt-c: connect) (alt-d: disconnect) (alt-X: delete) (alt-e: edit)
-(alt-m: modify) (alt-M: monitor) (alt-a: active filter) (alt-r: reload list)
+    conn_actions='(enter: print) (alt-c: connect) (alt-d: disconnect) (alt-X: delete)
+(alt-e: edit) (alt-M: monitor) (alt-a: active filter) (alt-r: reload list)
 
 '
 
@@ -124,7 +125,6 @@ connection_cmd() { #{{{1
         --bind='ctrl-r:reload(eval "$FZF_DEFAULT_COMMAND")' \
         --bind='alt-a:reload(eval "$FZF_DEFAULT_COMMAND --active")' \
         --bind='alt-M:execute(nmcli connection monitor {-1})' \
-        --bind='alt-m:execute(nmcli connection modify {-1} {q})+refresh-preview' \
         --bind='alt-r:execute(nmcli connection reload {-1})+refresh-preview' \
         --bind='alt-e:become(nmcli connection edit {-1})+reload(
             eval "$FZF_DEFAULT_COMMAND"
@@ -182,7 +182,7 @@ vpn_connect() { #{{{2
 
     vpn_fields='NAME,TYPE,DEVICE,UUID'
     vpn_actions='(enter: connect) (alt-d: disconnect) (alt-X: delete) (alt-e: edit)
-(alt-m: modify) (alt-M: monitor) (alt-a: active filter) (alt-r: reload list)
+(alt-M: monitor) (alt-a: active filter) (alt-r: reload list)
 
 '
     # disabled color because the ansi escape codes break the awk filter
@@ -202,12 +202,6 @@ vpn_connect() { #{{{2
         --bind='ctrl-r:reload(eval "$FZF_DEFAULT_COMMAND")' \
         --bind='alt-a:reload(eval "$FZF_DEFAULT_COMMAND --active")' \
         --bind='alt-M:execute(nmcli connection monitor {-1})' \
-        --bind='alt-u:execute(
-            read -rp "Enter user-name for {1} vpn: " name;
-            [ -n "$name" ] &&
-            nmcli connection modify {-1} vpn.user-name "$name"
-        )+refresh-preview' \
-        --bind='alt-m:execute(nmcli connection modify {-1} {q})+refresh-preview' \
         --bind='alt-r:execute(nmcli connection reload {-1})+refresh-preview' \
         --bind='alt-e:become(nmcli connection edit {-1})+reload(
             eval "$FZF_DEFAULT_COMMAND"
@@ -218,6 +212,11 @@ vpn_connect() { #{{{2
         --bind='alt-X:execute(nmcli connection delete {-1})+reload(
             eval "$FZF_DEFAULT_COMMAND"
         )'
+    # --bind='alt-u:execute(
+    #     read -rp "Enter user-name for {1} vpn: " name;
+    #     [ -n "$name" ] &&
+    #     nmcli connection modify {-1} vpn.user-name "$name"
+    # )+refresh-preview' \
 }
 
 wifi_cmd() { #{{{1
@@ -294,7 +293,7 @@ main() { #{{{1
         error "fzf and nmcli are required dependencies"
     fi
 
-    [ -z "$1" ] && error "a command is required"
+    [ -z "$1" ] && help_cmd
     command="$1" && shift
 
     case "$command" in
