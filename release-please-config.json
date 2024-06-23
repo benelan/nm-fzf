@@ -1,15 +1,14 @@
 {
   "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
-  "release-type": "simple",
-  "extra-files": ["nm-fzf", ".github/ISSUE_TEMPLATE/bug.yml"],
   "packages": {
     ".": {
-      "extra-files": ["nm-fzf", ".github/ISSUE_TEMPLATE/bug.yml"]
+      "release-type": "simple",
+      "extra-files": ["nm-fzf", ".github/ISSUE_TEMPLATE/bug.yml"],
+      "plugins": [
+        {
+          "type": "sentence-case"
+        }
+      ]
     }
-  },
-  "plugins": [
-    {
-      "type": "sentence-case"
-    }
-  ]
+  }
 }
