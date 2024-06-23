@@ -3,7 +3,9 @@
   "release-type": "simple",
   "extra-files": ["nm-fzf", ".github/ISSUE_TEMPLATE/bug.yml"],
   "packages": {
-    ".": {}
+    ".": {
+      "extra-files": ["nm-fzf", ".github/ISSUE_TEMPLATE/bug.yml"]
+    }
   },
   "plugins": [
     {
