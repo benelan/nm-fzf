@@ -4,5 +4,10 @@
   "extra-files": ["nm-fzf", ".github/ISSUE_TEMPLATE/bug.yml"],
   "packages": {
     ".": {}
-  }
+  },
+  "plugins": [
+    {
+      "type": "sentence-case"
+    }
+  ]
 }
