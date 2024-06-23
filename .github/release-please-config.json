@@ -1,0 +1,10 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "packages": {
+    ".": {
+      "release-type": "simple",
+      "package-name": "nm-fzf",
+      "extra-files": ["nm-fzf", ".github/ISSUE_TEMPLATE/bug.yml"]
+    }
+  }
+}
