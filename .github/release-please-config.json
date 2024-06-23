@@ -6,5 +6,10 @@
       "package-name": "nm-fzf",
       "extra-files": ["nm-fzf", ".github/ISSUE_TEMPLATE/bug.yml"]
     }
-  }
+  },
+  "plugins": [
+    {
+      "type": "sentence-case"
+    }
+  ]
 }
