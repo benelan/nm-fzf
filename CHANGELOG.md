@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1](https://github.com/benelan/nm-fzf/compare/v0.1.0...v0.1.1) (2024-07-10)
+
+
+### Bug Fixes
+
+* **wifi:** Resolve syntax error in `alt-d` keybind's reload action ([daaf5c1](https://github.com/benelan/nm-fzf/commit/daaf5c17acd94395dfe48ae2d4eb693da07b885e))
+
 ## 0.1.0 (2024-06-23)
 
 

@@ -12,7 +12,7 @@
 # https://github.com/P3rf/rofi-network-manager
 # https://github.com/ericmurphyxyz/rofi-wifi-menu
 
-NM_FZF_VERSION="0.1.0" # x-release-please-version
+NM_FZF_VERSION="0.1.1" # x-release-please-version
 
 # utils/config #{{{1
 cmd="$(basename "$0")"
